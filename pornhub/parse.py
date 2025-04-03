@@ -7,11 +7,11 @@ import gspread
 import datetime
 import sys
 now = datetime.datetime.now() # 현재시간
-import sv
+from sv import*
 
 # json 파일이 위치한 경로를 값으로 줘야 합니다.
-gc = gspread.service_account(sv.json_file_path)
-wks = gc.open_by_url(sv.spreadsheet_url)
+gc = gspread.service_account(json_file_path)
+wks = gc.open_by_url(spreadsheet_url)
 doc_link = wks.worksheet("링크")
 
 # 링크 있는지 확인 후 없으면 종료
@@ -34,9 +34,6 @@ options.add_argument("disable-gpu")
 options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
 options.add_argument("lang=ko_KR") # 한국어!
 
-
-
-mainpage = sv.mainpage
 driver = webdriver.Chrome(
   service=Service(ChromeDriverManager().install()),
   options=options

@@ -1,16 +1,16 @@
 # parser.py
 import requests
 from bs4 import BeautifulSoup as bs
-import sv
+from sv import*
 
 # Session 생성, with 구문 안에서 유지
 with requests.Session() as s:
     # 폰허브 홈페이지 접속
-    start_page = s.get(sv.start_page)
+    start_page = s.get(start_page)
     html = start_page.text
     soup = bs(html, 'html.parser')
     # 영상링크 하나를 가져오기
-    target_page = s.get(sv.target_page)
+    target_page = s.get(target_page)
     soup = bs(target_page.text, 'html.parser') # soup로 만들어 주기
     # 아래 CSS Selector는 영상 제목을 콕 하고 집어줍니다.
     title = soup.select('#hd-leftColVideoPage > div.topSectionGrid > div.videoWrapModelInfo.original > div > div.title-container > h1 > span')

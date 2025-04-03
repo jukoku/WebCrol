@@ -10,10 +10,10 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "websaver.settings")
 import django
 django.setup()
 from parsed_data.models import BlogData
-import sv
+from sv import*
 
 def parse_blog():
-    req = requests.get(sv.URL)
+    req = requests.get(URL)
     html = req.text
     soup = BeautifulSoup(html, 'html.parser')
     my_titles = soup.select(

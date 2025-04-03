@@ -9,7 +9,7 @@ import datetime
 import sys
 import re
 now = datetime.datetime.now() # 현재시간
-import sv
+from sv import*
 
 # json 파일이 위치한 경로를 값으로 줘야 합니다.
 
@@ -22,8 +22,8 @@ if WHICHPAGE == 'comic':
 elif WHICHPAGE == 'whole':
   seller = '전체'
 
-gc = gspread.service_account(sv.json_file_path)
-wks = gc.open_by_url(sv.spreadsheet_url)
+gc = gspread.service_account(json_file_path)
+wks = gc.open_by_url(spreadsheet_url)
 
 doc_now = wks.worksheet('지금(알라딘)')
 doc_old = wks.worksheet('과거(알라딘)')
@@ -61,13 +61,6 @@ options.add_argument("lang=ko_KR") # 한국어!
 
 
 genres_web = []
-mainpage = sv.mainpage
-# 코믹겔러리 - 중고책 다량 보유 전문 셀러 (판타지, 무협)
-fantasy_comic = sv.fantasy_comic
-muhyup_comic = sv.muhyup_comic
-#전체 페이지 (판타지, 무협)
-fantasy_h = sv.fantasy_h
-muhyup_h = sv.muhyup_h
 
 driver = webdriver.Chrome(
   service=Service(ChromeDriverManager().install()),

@@ -9,11 +9,11 @@ import datetime
 import sys
 import re
 now = datetime.datetime.now() # 현재시간
-import sv
+from sv import*
 
 # json 파일이 위치한 경로를 값으로 줘야 합니다.
 
-gc = gspread.service_account(sv.json_file_path)
-wks = gc.open_by_url(sv.spreadsheet_url)
+gc = gspread.service_account(json_file_path)
+wks = gc.open_by_url(spreadsheet_url)
 doc = wks.worksheet('확인')
 

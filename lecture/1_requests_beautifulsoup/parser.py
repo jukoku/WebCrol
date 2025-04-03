@@ -3,13 +3,13 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import os
-import sv
+from sv import*
 
 
 # python파일의 위치
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-req = requests.get(sv.URL)
+req = requests.get(URL)
 html = req.text
 soup = BeautifulSoup(html, 'html.parser')
 my_titles = soup.select(
