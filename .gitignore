@@ -1,0 +1,4 @@
+gitignore/
+sv.py
+*.txt
+*.xlsx
