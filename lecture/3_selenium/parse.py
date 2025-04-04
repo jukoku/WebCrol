@@ -4,11 +4,11 @@ from selenium.webdriver.common.by import By
 import gspread
 import datetime
 now = datetime.datetime.now() # 현재시간
-import sv
+from sv_3 import*
 
 # json 파일이 위치한 경로를 값으로 줘야 합니다.
-gc = gspread.service_account(sv.json_file_path)
-wks = gc.open_by_url(sv.spreadsheet_url)
+gc = gspread.service_account(json_file_path)
+wks = gc.open_by_url(spreadsheet_url)
 doc_link = wks.worksheet("링크")
 doc_crol = wks.worksheet("크롤")
 doc_result = wks.worksheet("결과")
@@ -30,7 +30,7 @@ driver = webdriver.Chrome(options=options)
 driver.implicitly_wait(3)
 driver.get('about:blank')
 driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: function() {return[1, 2, 3, 4, 5];},});")
-driver.get(sv.mainpage) # 폰헙 접속
+driver.get(mainpage) # 폰헙 접속
 driver.find_element('xpath', '//*[@id="modalWrapMTubes"]/div/div/button').click() # 19세 이상 클릭
 
 
@@ -68,7 +68,7 @@ for link in mvlinks:
     author = soup.select(author_selector_1)
   print(title)
   print(author)
-  chlink = sv.mainpage + author[0].get('href') # 채널주인 부분에서 링크 추출
+  chlink = mainpage + author[0].get('href') # 채널주인 부분에서 링크 추출
   chlinks.append(chlink) # 채널 링크 추가
   # HTML을 제대로 파싱한 뒤에는 .text속성을 이용합니다.  
   # [0]을 하는 이유는 select로 하나만 가져와도 title자체는 리스트이기 때문입니다.

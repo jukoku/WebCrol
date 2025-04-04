@@ -3,3 +3,4 @@ gitignore/
 sv.py
 *.txt
 *.xlsx
+*.json

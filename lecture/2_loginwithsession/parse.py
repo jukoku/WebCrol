@@ -1,7 +1,7 @@
 # parser.py
 import requests
 from bs4 import BeautifulSoup as bs
-from sv import*
+from sv_2 import*
 
 # Session 생성, with 구문 안에서 유지
 with requests.Session() as s:

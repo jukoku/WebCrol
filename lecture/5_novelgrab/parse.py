@@ -4,51 +4,25 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-import gspread
-import datetime
 import sys
 import re
-now = datetime.datetime.now() # 현재시간
-from sv import*
-
+from sv_5 import*
+from gs import NovelGrab
 # json 파일이 위치한 경로를 값으로 줘야 합니다.
 
 PRICE = 1000 #권당 가격 상한선
 ISEND = True #완결된 것만 취득 ?
-WHICHPAGE = 'comic' #코믹겔러지(comic), 전체(whole)
+STORE = 'comic' #코믹겔러지(comic), 전체(whole)
 
-if WHICHPAGE == 'comic':
-  seller = '코믹겔러리'
-elif WHICHPAGE == 'whole':
-  seller = '전체'
+ng = NovelGrab()
+nv = Novel()
 
-gc = gspread.service_account(json_file_path)
-wks = gc.open_by_url(spreadsheet_url)
+ng.store(STORE)
 
-doc_now = wks.worksheet('지금(알라딘)')
-doc_old = wks.worksheet('과거(알라딘)')
-
-genres = ['여기서 시작 __ ']
-titles = [now.strftime("%Y-%m-%d %H:%M:%S")]
-isEnds = ['']
-conditions = ['판매자']
-n_books = [seller]
-bprices = ['']
-prices = ['']
-publishers = ['']
-authors = ['']
-links = ['']
-
-genres_old = doc_old.col_values(1)
-titles_old = doc_old.col_values(2)
-isEnds_old = doc_old.col_values(3)
-conditions_old = doc_old.col_values(4)
-n_books_old = doc_old.col_values(5)
-bprices_old = doc_old.col_values(6)
-prices_old = doc_old.col_values(7)
-publishers_old = doc_old.col_values(8)
-authors_old = doc_old.col_values(9)
-links_old = doc_old.col_values(10)
+fantasy_h = nv.get_link(nv.fantasy)
+muhyup_h = nv.get_link(nv.muhyup)
+fantasy_comic = nv.get_link(nv.fantasy, nv.store())
+muhyup_comic = nv.get_link(nv.muhyup, nv.store())
 
 options = webdriver.ChromeOptions()
 options.add_argument("headless")  # 헤드리스 모드 실행
@@ -69,7 +43,7 @@ driver = webdriver.Chrome(
 driver.implicitly_wait(3)
 driver.get('about:blank')
 driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: function() {return[1, 2, 3, 4, 5];},});")
-if WHICHPAGE == 'comic':  # 코믹겔러리 페이지수 수집
+if STORE == 'comic':  # 코믹겔러리 페이지수 수집
   driver.get(fantasy_comic)  
   driver.find_element(By.CSS_SELECTOR, '#short > div.numbox_last > a').click()
   pages_fantasy_comic = 1
@@ -88,18 +62,18 @@ if WHICHPAGE == 'comic':  # 코믹겔러리 페이지수 수집
 pages_fantasy_h = 100
 pages_muhyup_h = 100
 
-if WHICHPAGE == 'whole':
+if STORE == 'whole':
   fantasy = fantasy_h
   muhyup = muhyup_h
   pages_fantasy = pages_fantasy_h
   pages_muhyup = pages_muhyup_h
-elif WHICHPAGE == 'comic':
+elif STORE == 'comic':
   fantasy = fantasy_comic
   muhyup = muhyup_comic
   pages_fantasy = pages_fantasy_comic
   pages_muhyup = pages_muhyup_comic
 
-
+print(fantasy, '\n'+muhyup)
 for page in range(1, pages_fantasy + 1):
   fantasy_ = fantasy.replace('page=1', f'page={page}')
   genres_web.append(fantasy_)
@@ -189,47 +163,13 @@ for genre_ in genres_web:
     print('저자 : ',author)
     print('링크 : ',link,'\n')
     
-    genres.append(genre)
-    titles.append(title)
-    isEnds.append(isEnd)
-    conditions.append(condition)
-    n_books.append(n_book)
-    bprices.append(bprice)
-    prices.append(price)
-    publishers.append(publisher)
-    authors.append(author)
-    links.append(link)
+    ng.appends(genre, title, isEnd, condition, n_book, bprice, price, publisher, author, link)
+    print('Items :',len(ng.titles))
+driver.quit()
+ng.save_cols()
+ng.insert_cols(ng.doc_now, ng.now_cols)
+ng.insert_rows(ng.doc_now, ng.genres)
+ng.insert_cols(ng.doc_old, ng.old_cols)
+ng.insert_rows(ng.doc_old, ng.genres_old)
 
-for i in genres:
-  genres_old.append(i)
-for i in titles:
-  titles_old.append(i)
-for i in isEnds:
-  isEnds_old.append(i)
-for i in conditions:
-  conditions_old.append(i)
-for i in n_books:
-  n_books_old.append(i)
-for i in bprices:
-  bprices_old.append(i)
-for i in prices:
-  prices_old.append(i)
-for i in publishers:
-  publishers_old.append(i)
-for i in authors:
-  authors_old.append(i)
-for i in links:
-  links_old.append(i)
-now_cols = [genres, titles, isEnds, conditions, n_books, bprices, prices, publishers, authors, links]
-old_cols = [genres_old, titles_old, isEnds_old, conditions_old, n_books_old, bprices_old, prices_old, publishers_old, authors_old, links_old]
-doc_now.clear()
-doc_now.insert_cols(now_cols, col=1)
-head =  [
-    ['장르', '제목', '완결여부', '상태', '권', '가격', '가격(권당)', '출판사', '저자', '링크', '판매자', seller], 
-    ['genre', 'title', 'isEnd', 'condition', 'n_book', 'bprice', 'price', 'publisher', 'author', 'link']
-    ]
-doc_now.insert_rows(head, row=1)
-doc_old.clear()
-doc_old.insert_cols(old_cols, col=1)
-if genres_old[0] != '장르':
-  doc_old.insert_rows(head, row=1)
+print('여기서 테스트')

@@ -1,33 +1,18 @@
 # -*- coding: utf-8 -*-
 import re
+import sys
+#sv는 환경변수로 지정된 폴더 내에 있는 파일 sv.py -> class lec_6
+from sv_6 import*
 
-test = '김기봉 장편소설 1 - 20, 언제까지 / 데스트'
-test1 = '김기봉 장편소설 1-2, 언제까지 / 데스트'
-test2 = '장기용 장편소설 전6권 완'
-test3 = '장기용 장편소설 1 ~2 언제까지 전8권 / ㅌㅌ'
-
-
-
-cq = '\d{1}[-~]\d{1,2}|\d{1}\s[-~]\d{1,2}|\d{1}[-~]\s\d{1,2}|\d{1}\s[-~]\s\d{1,2}' \
-'|\d{1}[-~]\d{3,4}|\d{1}\s[-~]\d{3,4}|\d{1}[-~]\s\d{3,4}|\d{1}\s[-~]\s\d{3,4}' \
-'|전\d{1,2}|전\s\d{1,2}|전\s\s\d{1,2}|전\d{3,4}|전\s\d{3,4}|전\s\s\d{3,4}'
-result = '|'.join(re.findall(cq, test))
-print(result)
-result = re.split(r'\D+', result)
-result = result[len(result)-1]
-print(result)
-result = '|'.join(re.findall(cq, test1))
-print(result)
-result = re.split(r'\D+', result)
-result = result[len(result)-1]
-print(result)
-result = '|'.join(re.findall(cq, test3))
-print(result)
-result = re.split(r'\D+', result)
-result = result[len(result)-1]
-print(result)
-result = re.findall('전\d', test1)
-print(result)
+print(lec_6.getpart(cq, test))
+print(lec_6.gennum(lec_6.getpart(cq, test)))
+print(lec_6.getpart(cq, test1))
+print(lec_6.gennum(lec_6.getpart(cq, test1)))
+print(lec_6.getpart(cq, test2))
+print(lec_6.gennum(lec_6.getpart(cq, test2)))
+print(lec_6.getpart(cq, test3))
+print(lec_6.gennum(lec_6.getpart(cq, test3)))
+print(lec_6.getpart(cq1, test3))
 
 test = '언제나/즐거운\우리집|앞마당  앞에는'
 result = re.split('[/|]|\s\s|\\\\', test)
@@ -67,3 +52,5 @@ head =  [
     ['genre', 'title', 'isEnd', 'condition', 'n_book', 'bprice', 'price', 'publisher', 'author', 'link']
     ]
 print(head[0][0])
+
+print(sys.path)

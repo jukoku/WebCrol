@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import os
-from sv import*
+from sv_1 import*
 
 
 # python파일의 위치

@@ -10,7 +10,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "websaver.settings")
 import django
 django.setup()
 from parsed_data.models import BlogData
-from sv import*
+from sv_4 import*
 
 def parse_blog():
     req = requests.get(URL)
