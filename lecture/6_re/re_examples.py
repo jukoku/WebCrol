@@ -2,17 +2,19 @@
 import re
 import sys
 #sv는 환경변수로 지정된 폴더 내에 있는 파일 sv.py -> class lec_6
-from sv_6 import*
+from sv_6 import Examples
 
-print(lec_6.getpart(cq, test))
-print(lec_6.gennum(lec_6.getpart(cq, test)))
-print(lec_6.getpart(cq, test1))
-print(lec_6.gennum(lec_6.getpart(cq, test1)))
-print(lec_6.getpart(cq, test2))
-print(lec_6.gennum(lec_6.getpart(cq, test2)))
-print(lec_6.getpart(cq, test3))
-print(lec_6.gennum(lec_6.getpart(cq, test3)))
-print(lec_6.getpart(cq1, test3))
+ex = Examples()
+
+print(ex.getpart(ex.cq, ex.test))
+print(ex.gennum(ex.getpart(ex.cq, ex.test)))
+print(ex.getpart(ex.cq, ex.test1))
+print(ex.gennum(ex.getpart(ex.cq, ex.test1)))
+print(ex.getpart(ex.cq, ex.test2))
+print(ex.gennum(ex.getpart(ex.cq, ex.test2)))
+print(ex.getpart(ex.cq, ex.test3))
+print(ex.gennum(ex.getpart(ex.cq, ex.test3)))
+print(ex.getpart(ex.cq1, ex.test3))
 
 test = '언제나/즐거운\우리집|앞마당  앞에는'
 result = re.split('[/|]|\s\s|\\\\', test)
