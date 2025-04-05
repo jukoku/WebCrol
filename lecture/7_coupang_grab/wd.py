@@ -1,9 +1,13 @@
+# -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from sv_7 import*
+import time
 class Coupang_web:
 
   def __init__(self):
@@ -15,6 +19,7 @@ class Coupang_web:
     # UserAgent값을 바꿔줍시다! - headless인 것을 속이기!
     self.options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
     self.options.add_argument("lang=ko_KR") # 한국어!
+    self.options.add_argument("--disable-blink-features=AutomationControlled")
 
     self.driver = webdriver.Chrome(
       service=Service(ChromeDriverManager().install()),
@@ -26,28 +31,40 @@ class Coupang_web:
     self.pages = []
     self.html = ''
     self.soup = ''
-    self.title = 'a > dl > dd > div > div.name'
-    self.price = 'a > dl > dd > div > div.price-area > div > div.price > em > strong'
-    self.price_100 = 'a > dl > dd > div > div.price-area > div > div.price > span.unit-price > em:nth-child(2)'
-    self.a_link = 'a'
+    self.title = 'li > a > dl > dd > div > div.name'
+    self.price = 'li > a > dl > dd > div > div.price-area > div > div.price > em > strong'
+    self.price_100 = 'li > a > dl > dd > div > div.price-area > div > div.price > span.unit-price > em:nth-child(2)'
+    self.a_link = 'li > a'
+    self.one = '#productList'
 
   def store_pages(self):
     for i in range(1, 28):
       self.pages.append(mainpage + str(i))
-    print(self.pages)
 
-  def grab(self):
-    for page in self.pages:
-      self.driver.get(page)
+  def grab(self, page):
+    self.driver.implicitly_wait(3)
+    self.driver.get('about:blank')
+    print('\n\n\n'+page+'\n\n\n')
+    self.driver.get(page)
+    try:
+      element = WebDriverWait(self.driver, 10).until(
+      EC.presence_of_element_located((By.ID, 'productList'))
+        )
+    finally:
+      print('계속')
 
-      self.html = self.driver.page_source
-      self.soup = BeautifulSoup(self.html, 'html.parser')
-      self.title = self.soup.select(self.title)
-      self.price = self.soup.select(self.price)
-      self.price_100 = self.soup.select(self.price_100)
-      self.a_link = self.soup.select(self.a_link)
-      print(len(self.title), len(self.price), len(self.price_100), len(self.a_link))
-      print(self.title[0])
-      # print(self.price)
-      # print(self.price_100)
-      # print(self.a_link)
+
+    self.html = self.driver.page_source
+    self.soup = BeautifulSoup(self.html, 'html.parser')
+    self.one = self.soup.select_one(self.one)      
+    self.title = self.one.select(self.title)
+    self.price = self.one.select(self.price)
+    self.price_100 = self.one.select(self.price_100)      
+    self.a_link = self.one.select(self.a_link)
+    print(len(self.title), len(self.price), len(self.price_100), len(self.a_link))
+    print(self.title)
+    # print(self.price)
+    # print(self.price_100)
+    # print(self.a_link)
+    time.sleep(10)
+    self.driver.quit()

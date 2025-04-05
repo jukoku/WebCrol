@@ -8,7 +8,7 @@ import sys
 from sv_7 import*
 from gs import Coupang
 from wd import Coupang_web
-
+from rq import Coupang_re
 PRICE = 200 # 100m당 가격 상한선
 
 cp = Coupang()
@@ -16,4 +16,6 @@ cp = Coupang()
 cw = Coupang_web()
 
 cw.store_pages()
-cw.grab()
+for page in cw.pages:
+  cw.__init__()
+  cw.grab(page)

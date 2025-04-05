@@ -1,0 +1,7 @@
+json_file_path = '../../gitignore/novel-list-write-and-read-ed4fe77a151a.json'
+spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1aAbRMCJOfQ8vsenCI2BoMSarzSS-ThYxsDX4PyZ_UnQ'
+mainpage = 'https://www.coupang.com/np/search?q=무알콜+맥주&channel=recent&page='
+selector_link = 'ul > li > a'
+selector_title = 'ul > li > a > dl > dd > div > div.name'
+selector_price = 'ul > li > a > dl > dd > div > div.price-area > div > div.price > em > strong'
+selector_price_100 = 'ul > li > a > dl > dd > div > div.price-area > div > div.price > span.unit-price > em:nth-child(2)'
