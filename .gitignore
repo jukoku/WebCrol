@@ -1,4 +1,5 @@
 gitignore/
+__pycache__/
 # sv.py에 각종 중요 변수들 저장
 sv.py
 *.txt
