@@ -2,11 +2,11 @@
 import gspread
 import datetime
 now = datetime.datetime.now() # 현재시간
-from sv_5 import json_file_path, spreadsheet_url
+from sv_5 import spreadsheet_url, json_file_path
+# 환경변수를 통해서는 json파일을 읽을 수 없다는 것을 확인
 
 class Common:
 
-  
   def wks(json_file_path, spreadsheet_url):
     gc = gspread.service_account(json_file_path)
     return gc.open_by_url(spreadsheet_url)

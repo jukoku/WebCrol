@@ -47,14 +47,13 @@ if STORE == 'comic':  # 코믹겔러리 페이지수 수집
   driver.get(fantasy_comic)  
   driver.find_element(By.CSS_SELECTOR, '#short > div.numbox_last > a').click()
   pages_fantasy_comic = 1
+  fn = 'page[=]\d{1,2}|page[=]\d{3,4}'
   while pages_fantasy_comic < 2:
-    fn = 'page[=]\d{1,2}|page[=]\d{3,4}'
     pages_fantasy_comic = int(''.join(re.split(r'\D+', ''.join(re.findall(fn, driver.current_url))))) # 현재 최대 페이지수 수집
   driver.get(muhyup_comic)    
   driver.find_element(By.CSS_SELECTOR, '#short > div.numbox_last > a').click()  
   pages_muhyup_comic = 1
-  while pages_muhyup_comic < 2:
-    fn = 'page[=]\d{1,2}|page[=]\d{3,4}'
+  while pages_muhyup_comic < 2:    
     pages_muhyup_comic = int(''.join(re.split(r'\D+', ''.join(re.findall(fn, driver.current_url))))) # 현재 최대 페이지수 수집
   print('페이지수 - 판타지 코믹겔러리 :', pages_fantasy_comic)
   print('페이지수 - 무협 코믹겔러리 :', pages_muhyup_comic)
