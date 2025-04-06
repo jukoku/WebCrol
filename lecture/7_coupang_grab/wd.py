@@ -12,9 +12,9 @@ class Coupang_web:
 
   def __init__(self):
     self.options = webdriver.ChromeOptions()
-    self.options.add_argument("headless")  # 헤드리스 모드 실행
-    self.options.add_argument('window-size=1920x1080')
-    self.options.add_argument("disable-gpu")
+    # self.options.add_argument("--headless")  # 헤드리스 모드 실행
+    # self.options.add_argument('--window-size=1920x1080')
+    # self.options.add_argument("--disable-gpu")
     # 혹은 options.add_argument("--disable-gpu")
     # UserAgent값을 바꿔줍시다! - headless인 것을 속이기!
     self.options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
@@ -37,14 +37,15 @@ class Coupang_web:
     self.a_link = 'li > a'
     self.one = '#productList'
 
+  def click_next(self):
+    self.driver.find_element(By.XPATH, '//*[@id="searchOptionForm"]/div[2]/div[2]/div[6]/span[2]/a[2]').click()
+    time.sleep(60)
+
   def store_pages(self):
     for i in range(1, 28):
       self.pages.append(mainpage + str(i))
 
-  def grab(self, page):
-    self.driver.implicitly_wait(3)
-    self.driver.get('about:blank')
-    print('\n\n\n'+page+'\n\n\n')
+  def connect(self, page):    
     self.driver.get(page)
     try:
       element = WebDriverWait(self.driver, 10).until(
@@ -53,6 +54,7 @@ class Coupang_web:
     finally:
       print('계속')
 
+  def grab(self):
 
     self.html = self.driver.page_source
     self.soup = BeautifulSoup(self.html, 'html.parser')
@@ -66,5 +68,5 @@ class Coupang_web:
     # print(self.price)
     # print(self.price_100)
     # print(self.a_link)
-    time.sleep(10)
-    self.driver.quit()
+    time.sleep(60)
+    

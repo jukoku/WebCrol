@@ -16,6 +16,12 @@ cp = Coupang()
 cw = Coupang_web()
 
 cw.store_pages()
-for page in cw.pages:
-  cw.__init__()
-  cw.grab(page)
+
+cw.connect(cw.pages[0])
+
+cw.grab()
+
+cw.click_next()
+
+cw.grab()
+
