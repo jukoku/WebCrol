@@ -5,3 +5,4 @@ sv.py
 *.txt
 *.xlsx
 *.json
+.DS_Store
